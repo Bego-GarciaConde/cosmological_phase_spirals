@@ -27,8 +27,8 @@ logging.basicConfig(level=logging.ERROR)
 #TABLA CON LISTA DE SNAPSHOTS, EDADES, LOOKBACK
 #datos_edades=pd.read_csv("/home/bego/GARROTXA/datos_GARROTXA_resim/edades.csv", sep = ",",index_col = 0)
 #datos_edades = pd.read_csv("/home/bego/GARROTXA/datos_GARROTXA_resim/edades.csv", sep = ",",index_col = 0)
-path_datos = "datos_GARROTXA_resim/"
-path_csv = "/media/temp/bego/snapshots_resim/"
+path_datos = "/home/bego/GARROTXA/datos_GARROTXA_resim/"
+path_csv = "/home/estudiantsBCN/snapshots/"
 datos_edades = pd.read_csv(path_datos + "edades.csv", sep = ",",index_col = 0)
 
 
@@ -112,10 +112,11 @@ def fourier(X,Y, peso=None, modo =1, maxmode=6):
         if (amplitude_modo1 > threshold_noise*amplitude_modo6)& (amplitude_modo1 > threshold_noise*amplitude_modo5):
             if (amplitude_modo1 > threshold_noise*amplitude_modo3)& (amplitude_modo1 > threshold_noise*amplitude_modo4):
                 #mode_amplitude = np.mean(AA[modo,bottom_bin:upper_bin])/np.mean(AA[0,bottom_bin:upper_bin])  
-               # mode_amplitude = np.mean(AA[modo,bottom_bin:upper_bin])/np.mean(AA[0,bottom_bin:upper_bin]) 
+                #mode_amplitude = np.mean(AA[modo,bottom_bin:upper_bin])/np.mean(AA[0,bottom_bin:upper_bin]) 
               #  mode_amplitude = np.mean(amplitude_modo1)
-                mode_amplitude = amplitude_modo1
-               # np.mean(AA[modo,bottom_bin:upper_bin]/nparticles[bottom_bin:upper_bin]) 
+               # mode_amplitude = amplitude_modo1
+               
+               mode_amplitude= np.mean(AA[modo,bottom_bin:upper_bin]/nparticles[bottom_bin:upper_bin]) 
             else:
                 mode_amplitude = 0
         else:
@@ -143,29 +144,29 @@ def amplitudes_into_table(weight, amplitude_data): #weight: dens vphi or vr
 
 #LISTA DE SNAPSHOTS PARA ANALIZAR 
 
-# snapshots_analysis = [ 602,604, 608, 610, 612, 614, 616, 618, 620, 622, 624, 626,
-#  629, 630, 632, 634, 636, 639, 640, 642, 644, 646, 648, 650, 652, 654, 656, 658, 660,
-#  660, 662, 664, 666, 668,670, 672, 674, 676, 679, 681, 682, 684, 687, 689,
-#  690, 692, 694, 698, 704, 706, 708,711, 712,714, 716, 718, 720,
-#  722, 724, 726, 728, 731, 732, 734, 736, 739, 740, 742, 744, 746, 748, 751,752,
-#    755, 756, 758, 761,763, 764, 766,
-#   768, 770, 772, 774, 776, 778, 780,
-# 782, 784, 786, 788, 790, 792, 794, 797, 798,
-# 801, 802, 805, 806, 808, 810, 812, 814, 816, 818, 820, 822, 824, 826, 828,
-# 830, 832, 834, 836, 839, 840, 842, 844, 846, 848, 850,
-# 853, 855, 856, 858, 860, 862, 864, 867, 870, 872, 875, 877, 879, 881, 883, 884, 886, 888,
-# 890, 892, 894, 898, 900, 902, 904, 907, 908, 910, 912, 915, 916, 918, 921, 922, 924, 927, 
-# 929, 930, 932, 934, 937, 939, 941,942, 944, 946, 948, 950, 952, 954,956, 958, 961, 963, 
-# 965, 966, 
-# 968, 970, 972, 974, 976, 979, 980, 982, 984, 989, 990, 993, 994, 996, 999]
-snapshots_analysis= [886]
+snapshots_analysis = [ 602,604, 608, 610, 612, 614, 616, 618, 620, 622, 624, 626,
+ 629, 630, 632, 634, 636, 639, 640, 642, 644, 646, 648, 650, 652, 654, 656, 658, 660,
+ 660, 662, 664, 666, 668,670, 672, 674, 676, 679, 681, 682, 684, 687, 689,
+ 690, 692, 694, 698, 704, 706, 708,711, 712,714, 716, 718, 720,
+ 722, 724, 726, 728, 731, 732, 734, 736, 739, 740, 742, 744, 746, 748, 751,752,
+   755, 756, 758, 761,763, 764, 766,
+  768, 770, 772, 774, 776, 778, 780,
+782, 784, 786, 788, 790, 792, 794, 797, 798,
+801, 802, 805, 806, 808, 810, 812, 814, 816, 818, 820, 822, 824, 826, 828,
+830, 832, 834, 836, 839, 840, 842, 844, 846, 848, 850,
+853, 855, 856, 858, 860, 862, 864, 867, 870, 872, 875, 877, 879, 881, 883, 884, 886, 888,
+890, 892, 894, 898, 900, 902, 904, 907, 908, 910, 912, 915, 916, 918, 921, 922, 924, 927, 
+929, 930, 932, 934, 937, 939, 941,942, 944, 946, 948, 950, 952, 954,956, 958, 961, 963, 
+965, 966, 
+968, 970, 972, 974, 976, 979, 980, 982, 984, 989, 990, 993, 994, 996, 999]
+#snapshots_analysis= [886]
 
-iniciar = 0 #inicia una tabla nueva
+iniciar = 1 #inicia una tabla nueva
 edades = [0,5000] #Myr
 radianes = 0.2618 
 #peso = "dens"
 radios = [10,12]
-etiqueta = f"{radios[0]}-{radios[1]}_0-5Gyr_ytRS_mean0"
+etiqueta = f"{radios[0]}-{radios[1]}_0-5Gyr_ytRS_def"
 
 if iniciar == 1:
     dato_vacio = []
@@ -208,9 +209,11 @@ for k in range(len(snapshots_analysis)):
             dfRs_r= df_radio[(df_radio['Phi']>j*2*radianes-radianes)&(df_radio['Phi']<j*2*radianes +radianes)].copy()
             
         Y = np.array(dfRs_r["VZ"]*np.std(dfRs_r["Z"])/np.std(dfRs_r["VZ"])) #Rescale Vz
-        Vphi = np.array(dfRs_r["Vphi"]- np.mean(dfRs_r["Vphi"]))
+     #   Vphi = np.array(dfRs_r["Vphi"]- np.mean(dfRs_r["Vphi"]))
         X = np.array(dfRs_r["Z"])
         Vr = np.array(dfRs_r["Vr"])
+        Vphi = np.array(dfRs_r["Vphi"])
+
         #   Mass = np.array(dfRs_r["Mass"])
         fourier_resultado_vphi = fourier(X,Y, peso = Vphi)
         amplitude_modes_vphi[j]=round(fourier_resultado_vphi,3) 
